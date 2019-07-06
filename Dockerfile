@@ -7,9 +7,9 @@ RUN bash Miniconda3-latest-Linux-x86_64.sh -p /miniconda -b
 RUN rm Miniconda3-latest-Linux-x86_64.sh
 ENV PATH=/miniconda/bin:${PATH}
 RUN conda update -y conda
-RUN conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing
+RUN conda install numpy pyyaml mkl mkl-include setuptools cmake cffi typing scikit-learn 
 RUN conda install pytorch torchvision -c pytorch
-RUN conda install visdom dominate -c conda-forge
+RUN conda install opencv visdom dominate -c conda-forge
  
 RUN mkdir /workspace/ && cd /workspace/ && mkdir pytorch-CycleGAN-and-pix2pix
 VOLUME /workspace/pytorch-CycleGAN-and-pix2pix

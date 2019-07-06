@@ -7,12 +7,6 @@ import urllib.request
 from sklearn.cluster import MiniBatchKMeans
 import cv2
 
-
-test_images = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after/A/test"
-target_quant = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after_experimental/A/test"
-
-
-
 def get_filepaths_in_folder(folder):
 
     directory = os.fsencode(folder)
@@ -25,10 +19,9 @@ def get_filepaths_in_folder(folder):
 
     return filenames
 
-        
-def to_greyscale(img_folder, target_folder):
+def to_greyscale(img_folder, target_folder=None):
 
-    print("Grayscaling Images")
+    print("Grey-Scaling Images")
 
     filepaths = get_filepaths_in_folder(img_folder)
 
@@ -57,8 +50,7 @@ def to_greyscale(img_folder, target_folder):
 
             cv2.imwrite(target_path, gray)
 
-        print("Processed image {}/{}".format(i+1, len(filepaths)), end="")  
-
+        print("Processed image {}/{}\r".format(i+1, len(filepaths)), end="")  
 
 def color_quantization(folder, color_count, target_folder):
 
@@ -69,7 +61,7 @@ def color_quantization(folder, color_count, target_folder):
         if not os.path.exists(target_folder):
             os.makedirs(target_folder)
 
-    print("Quatizing Images")
+    print("Quantizing Images")
 
     for i, single_filepath in enumerate(filepaths):
     
@@ -106,36 +98,34 @@ def color_quantization(folder, color_count, target_folder):
             cv2.imwrite(single_filepath, quant)
 
         else:
-
             file_name = single_filepath.split("/")[-1]
             target_path = target_folder + "/" + file_name
 
             cv2.imwrite(target_path, quant)
 
-        print("Processed image {}/{}".format(i+1, len(filepaths)), end="")
+        print("Processed image {}/{}\r".format(i+1, len(filepaths)), end="")
     
-
 if __name__ == "__main__":
 
-    base_source = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after"
-    base_target = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after_prepro"
-
+    base_source = "datasets/before2after"
+ 
+    # color count for quantization
     col_count = 8
 
-    color_quantization(base_source + "/A/train", col_count, base_target + "/A/train")
-    color_quantization(base_source + "/A/val", col_count, base_target + "/A/val")
-    color_quantization(base_source + "/A/test", col_count, base_target + "/A/test")
+    color_quantization(base_source + "/A/train", col_count)
+    color_quantization(base_source + "/A/val", col_count)
+    color_quantization(base_source + "/A/test", col_count)
 
-    color_quantization(base_source + "/B/train", col_count, base_target + "/B/train")
-    color_quantization(base_source + "/B/val", col_count, base_target + "/B/val")
-    color_quantization(base_source + "/B/test", col_count, base_target + "/B/test")
+    color_quantization(base_source + "/B/train", col_count)
+    color_quantization(base_source + "/B/val", col_count)
+    color_quantization(base_source + "/B/test", col_count)
 
-    to_greyscale(base_target + "/A/train", None)
-    to_greyscale(base_target + "/A/val", None)
-    to_greyscale(base_target + "/A/test", None)
+    to_greyscale(base_source + "/A/train")
+    to_greyscale(base_source + "/A/val")
+    to_greyscale(base_source + "/A/test")
 
-    to_greyscale(base_target + "/B/train", None)
-    to_greyscale(base_target + "/B/val", None)
-    to_greyscale(base_target + "/B/test", None)
+    to_greyscale(base_source + "/B/train")
+    to_greyscale(base_source + "/B/val")
+    to_greyscale(base_source + "/B/test")
     
     

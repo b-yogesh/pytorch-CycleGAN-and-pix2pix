@@ -5,12 +5,12 @@ from sklearn.model_selection import train_test_split
 import urllib.request
 
 
-before_image_urls = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after/img_urls/before.csv"
-after_image_urls = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after/img_urls/after.csv"
-filtered_image_index_file = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after/img_urls/filter.txt"
+before_image_urls = "scripts/before2after/img_urls/before.csv"
+after_image_urls = "scripts/before2after/img_urls/after.csv"
+filtered_image_index_file = "scripts/before2after/img_urls/filter.txt"
 
-folder_path_a = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after/A"
-folder_path_b = "/data/users/sstauden/pytorch-CycleGAN-and-pix2pix/datasets/before2after/B"
+folder_path_a = "datasets/before2after/A"
+folder_path_b = "datasets/before2after/B"
 
 train_ratio, val_ratio, test_ratio = 0.7, 0.2, 0.1 
 
@@ -25,7 +25,7 @@ def read_url_file(file):
         for row in csv_reader:
             url_list.append(row[0])
 
-        print("Read {} image urls from {}".format(len(url_list), file))
+        print("Read {} image urls from {}\r".format(len(url_list), file))
 
         return np.array(url_list)
 
@@ -38,7 +38,7 @@ def read_filter_file(file):
         for line in txt_file:
             filter_indices.append(int(line))
 
-        print("Read {} image filter indeices from {}".format(len(filter_indices), file))
+        print("Read {} image filter indeices from {}\r".format(len(filter_indices), file))
 
     return np.array(filter_indices)
 
@@ -92,7 +92,7 @@ def download_images(url_list_a, url_list_b, img_name_prefix, target_folder_a, ta
         with  open(target_folder_b + "/" + file_name, "wb") as file_out_b:
             file_out_b.write(img_b.read())
 
-        print("Processed image {}/{}".format(counter + 1, len(url_list_a)), end="")
+        print("Processed image {}/{}\r".format(counter + 1, len(url_list_a)), end="")
 
         cur_img_id += 1
 
